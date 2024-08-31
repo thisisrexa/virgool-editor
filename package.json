@@ -1,0 +1,43 @@
+{
+  "name": "editor",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tiptap/core": "^2.5.8",
+    "@tiptap/extension-bubble-menu": "^2.5.8",
+    "@tiptap/extension-image": "^2.5.9",
+    "@tiptap/extension-link": "^2.5.9",
+    "@tiptap/extension-placeholder": "^2.5.9",
+    "@tiptap/pm": "^2.5.8",
+    "@tiptap/react": "^2.5.8",
+    "@tiptap/starter-kit": "^2.5.8",
+    "clsx": "^2.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.2",
+    "turndown": "^7.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/turndown": "^5.0.5",
+    "@typescript-eslint/eslint-plugin": "^7.15.0",
+    "@typescript-eslint/parser": "^7.15.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.7",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.4"
+  }
+}
