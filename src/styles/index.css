@@ -31,6 +31,7 @@
   @apply text-xl mt-6 leading-loose;
 }
 
+.tiptap h1,
 .tiptap h2 {
   @apply text-3xl font-bold mt-8;
 }

@@ -69,9 +69,13 @@ export default function EditorBubbleMenu() {
           </svg>
         </button>
         <button
-          onClick={() =>
-            editor.chain().focus().toggleHeading({ level: 2 }).run()
-          }>
+          onClick={() => {
+            if (!document.querySelector('h1')) {
+              editor.chain().focus().toggleHeading({ level: 1 }).run();
+            } else {
+              editor.chain().focus().toggleHeading({ level: 2 }).run();
+            }
+          }}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -82,6 +86,7 @@ export default function EditorBubbleMenu() {
             stroke-linejoin="round"
             className={cn(
               'w-5 h-5',
+              editor.isActive('heading', { level: 1 }) && 'text-blue-500',
               editor.isActive('heading', { level: 2 }) && 'text-blue-500'
             )}>
             <polyline points="4 7 4 4 20 4 20 7"></polyline>
