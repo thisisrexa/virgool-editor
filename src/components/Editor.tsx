@@ -1,10 +1,8 @@
 import { EditorProvider } from '@tiptap/react';
-
-import BubbleMenu from '@tiptap/extension-bubble-menu';
+import { Placeholder } from '@tiptap/extensions';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
-import Placeholder from '@tiptap/extension-placeholder';
 import Youtube from '@tiptap/extension-youtube';
 
 import EditorBubbleMenu from '@/components/EditorBubbleMenu';
@@ -12,8 +10,7 @@ import EditorFloatingMenu from '@/components/EditorFloatingMenu';
 import Header from '@/components/Header';
 
 const extensions = [
-  StarterKit,
-  BubbleMenu,
+  StarterKit.configure({ link: false }),
   Link,
   Image,
   Youtube,
@@ -24,7 +21,11 @@ const extensions = [
 
 export default function Editor() {
   return (
-    <EditorProvider extensions={extensions} slotBefore={<Header />}>
+    <EditorProvider
+      extensions={extensions}
+      shouldRerenderOnTransaction
+      slotBefore={<Header />}
+    >
       <EditorBubbleMenu />
       <EditorFloatingMenu />
     </EditorProvider>

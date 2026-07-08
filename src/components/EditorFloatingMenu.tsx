@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
-import { FloatingMenu, useCurrentEditor } from '@tiptap/react';
+import { useCurrentEditor } from '@tiptap/react';
+import { FloatingMenu } from '@tiptap/react/menus';
 import { Image, Plus } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';

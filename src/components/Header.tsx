@@ -31,11 +31,13 @@ export default function Header() {
 
   useEffect(() => {
     const storedContent = localStorage.getItem('content');
-    if (storedContent) editor?.commands.setContent(JSON.parse(storedContent));
-  }, []);
+    if (storedContent && editor) {
+      editor.commands.setContent(JSON.parse(storedContent));
+    }
+  }, [editor]);
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
     if (autoSave) {
       timeout = setTimeout(() => {
         localStorage.setItem('content', JSON.stringify(editor?.getJSON()));

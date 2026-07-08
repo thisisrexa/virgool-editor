@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
-import { BubbleMenu, useCurrentEditor } from '@tiptap/react';
+import { useCurrentEditor } from '@tiptap/react';
+import { BubbleMenu } from '@tiptap/react/menus';
 import { Bold, Italic, Link, Type } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
