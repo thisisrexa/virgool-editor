@@ -1,41 +1,42 @@
 import type { Editor } from '@tiptap/react';
 
-import { turndownService } from '@/components/editor/export/turndown';
+import {
+  type DocumentFormat,
+  getDocumentContent,
+} from '@/components/editor/export/document-content';
 
-export async function copyAsText(editor: Editor) {
+async function copyToClipboard(editor: Editor, format: DocumentFormat) {
   if (editor.isEmpty) {
     return;
   }
 
+  const content = getDocumentContent(editor, format);
+
   try {
-    await navigator.clipboard.writeText(editor.getText());
+    if (format === 'html') {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          'text/html': new Blob([content], { type: 'text/html' }),
+          'text/plain': new Blob([content], { type: 'text/plain' }),
+        }),
+      ]);
+      return;
+    }
+
+    await navigator.clipboard.writeText(content);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
-export async function copyAsMarkdown(editor: Editor) {
-  if (editor.isEmpty) {
-    return;
-  }
-
-  try {
-    await navigator.clipboard.writeText(
-      turndownService.turndown(editor.getHTML()),
-    );
-  } catch (error) {
-    console.log(error);
-  }
+export function copyAsText(editor: Editor) {
+  return copyToClipboard(editor, 'text');
 }
 
-export async function copyAsHtml(editor: Editor) {
-  if (editor.isEmpty) {
-    return;
-  }
+export function copyAsMarkdown(editor: Editor) {
+  return copyToClipboard(editor, 'markdown');
+}
 
-  try {
-    await navigator.clipboard.writeText(editor.getHTML());
-  } catch (error) {
-    console.log(error);
-  }
+export function copyAsHtml(editor: Editor) {
+  return copyToClipboard(editor, 'html');
 }

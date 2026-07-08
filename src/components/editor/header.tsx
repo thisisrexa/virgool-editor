@@ -12,21 +12,12 @@ import {
   exportAsMarkdown,
   exportAsText,
 } from '@/components/editor/export/export-document';
+import HeaderActionMenu from '@/components/editor/header-action-menu';
 import { AUTO_SAVE_KEY } from '@/components/editor/persistence/storage-keys';
 import { useAutoSave } from '@/components/editor/persistence/use-auto-save';
 import { useContentRestore } from '@/components/editor/persistence/use-content-restore';
 import ThemeSwitch from '@/components/theme/theme-switch';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   Tooltip,
   TooltipContent,
@@ -69,78 +60,44 @@ export default function Header() {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <DropdownMenu>
-          <TooltipProvider>
-            <Tooltip>
-              <DropdownMenuTrigger asChild>
-                <TooltipTrigger asChild>
-                  <Button size="icon" variant="ghost">
-                    <Clipboard />
-                  </Button>
-                </TooltipTrigger>
-              </DropdownMenuTrigger>
-              <TooltipContent>
-                <p>Clipboard</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Clipboard</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => editor && copyAsText(editor)}>
-                Copy as Text
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => editor && copyAsMarkdown(editor)}
-              >
-                Copy as Markdown
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => editor && copyAsHtml(editor)}>
-                Copy as HTML
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DropdownMenu>
-          <TooltipProvider>
-            <Tooltip>
-              <DropdownMenuTrigger asChild>
-                <TooltipTrigger asChild>
-                  <Button size="icon" variant="ghost">
-                    <File />
-                  </Button>
-                </TooltipTrigger>
-              </DropdownMenuTrigger>
-              <TooltipContent>
-                <p>Export to file</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Export</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem onClick={() => editor && exportAsText(editor)}>
-                Export to Text
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => editor && exportAsMarkdown(editor)}
-              >
-                Export to Markdown
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => editor && exportAsHtml(editor)}>
-                Export to HTML
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <HeaderActionMenu
+          icon={<Clipboard />}
+          tooltip="Clipboard"
+          label="Clipboard"
+          items={[
+            {
+              label: 'Copy as Text',
+              onClick: () => editor && copyAsText(editor),
+            },
+            {
+              label: 'Copy as Markdown',
+              onClick: () => editor && copyAsMarkdown(editor),
+            },
+            {
+              label: 'Copy as HTML',
+              onClick: () => editor && copyAsHtml(editor),
+            },
+          ]}
+        />
+        <HeaderActionMenu
+          icon={<File />}
+          tooltip="Export to file"
+          label="Export"
+          items={[
+            {
+              label: 'Export to Text',
+              onClick: () => editor && exportAsText(editor),
+            },
+            {
+              label: 'Export to Markdown',
+              onClick: () => editor && exportAsMarkdown(editor),
+            },
+            {
+              label: 'Export to HTML',
+              onClick: () => editor && exportAsHtml(editor),
+            },
+          ]}
+        />
       </div>
     </header>
   );

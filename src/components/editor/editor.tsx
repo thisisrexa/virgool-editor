@@ -1,7 +1,6 @@
 import { EditorProvider } from '@tiptap/react';
 
 import BubbleMenu from '@/components/editor/bubble-menu';
-import '@/components/editor/editor.css';
 import { editorExtensions } from '@/components/editor/extensions';
 import FloatingMenu from '@/components/editor/floating-menu';
 import Header from '@/components/editor/header';

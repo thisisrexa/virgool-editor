@@ -1,47 +1,46 @@
 import type { Editor } from '@tiptap/react';
 
+import {
+  type DocumentFormat,
+  getDocumentContent,
+  getDocumentFilename,
+} from '@/components/editor/export/document-content';
 import { downloadBlob } from '@/components/editor/export/download-blob';
-import { filenameFromHtml } from '@/components/editor/export/filename-from-html';
-import { turndownService } from '@/components/editor/export/turndown';
 
-function getFilename(editor: Editor) {
-  return filenameFromHtml(editor.getHTML());
+const MIME_TYPES: Record<DocumentFormat, string> = {
+  text: 'text/plain',
+  markdown: 'text/markdown',
+  html: 'text/html',
+};
+
+const EXTENSIONS: Record<DocumentFormat, string> = {
+  text: 'txt',
+  markdown: 'md',
+  html: 'html',
+};
+
+function exportDocument(editor: Editor, format: DocumentFormat) {
+  if (editor.isEmpty) {
+    return;
+  }
+
+  const filename = getDocumentFilename(editor);
+  const content = getDocumentContent(editor, format);
+
+  downloadBlob(
+    new Blob([content], { type: MIME_TYPES[format] }),
+    `${filename}.${EXTENSIONS[format]}`,
+  );
 }
 
 export function exportAsText(editor: Editor) {
-  if (editor.isEmpty) {
-    return;
-  }
-
-  const filename = getFilename(editor);
-  downloadBlob(
-    new Blob([editor.getText()], { type: 'text/plain' }),
-    `${filename}.txt`,
-  );
+  exportDocument(editor, 'text');
 }
 
 export function exportAsMarkdown(editor: Editor) {
-  if (editor.isEmpty) {
-    return;
-  }
-
-  const filename = getFilename(editor);
-  downloadBlob(
-    new Blob([turndownService.turndown(editor.getHTML())], {
-      type: 'text/markdown',
-    }),
-    `${filename}.md`,
-  );
+  exportDocument(editor, 'markdown');
 }
 
 export function exportAsHtml(editor: Editor) {
-  if (editor.isEmpty) {
-    return;
-  }
-
-  const filename = getFilename(editor);
-  downloadBlob(
-    new Blob([editor.getHTML()], { type: 'text/html' }),
-    `${filename}.html`,
-  );
+  exportDocument(editor, 'html');
 }
