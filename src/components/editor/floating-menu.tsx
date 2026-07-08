@@ -1,7 +1,7 @@
-import { useState, useCallback } from 'react';
 import { useCurrentEditor } from '@tiptap/react';
-import { FloatingMenu } from '@tiptap/react/menus';
+import { FloatingMenu as TiptapFloatingMenu } from '@tiptap/react/menus';
 import { Image, Plus } from 'lucide-react';
+import { useCallback, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 
-export default function EditorFloatingMenu() {
+export default function FloatingMenu() {
   const { editor } = useCurrentEditor();
   const [open, setOpen] = useState<boolean>(false);
   const [imageUrlValue, setImageUrlValue] = useState<string>('');
@@ -23,6 +23,7 @@ export default function EditorFloatingMenu() {
 
   const handleToggleMenu = () => {
     setOpen(!open);
+
     if (open) {
       document.documentElement.style.setProperty('--placeholder-opacity', '1');
     } else {
@@ -35,7 +36,7 @@ export default function EditorFloatingMenu() {
       editor
         ?.chain()
         .focus()
-        .setImage({ src: imageUrlValue, alt: imageAltValue ?? '' })
+        .setImage({ src: imageUrlValue, alt: imageAltValue })
         .run();
       setImageUrlValue('');
       setImageAltValue('');
@@ -47,24 +48,27 @@ export default function EditorFloatingMenu() {
   }
 
   return (
-    <FloatingMenu editor={editor}>
+    <TiptapFloatingMenu editor={editor}>
       <div className="flex absolute -left-16 top-1/2 -translate-y-1/2 items-center">
         <Button
           variant="outline"
           size="icon"
           className="border-muted-foreground/30"
-          onClick={handleToggleMenu}>
+          onClick={handleToggleMenu}
+        >
           <Plus
             className={cn(
               'size-4 transition-transform duration-200 text-muted-foreground',
-              open && 'rotate-45'
-            )}></Plus>
+              open && 'rotate-45',
+            )}
+          />
         </Button>
         <div
           className={cn(
             'transition-all duration-200 space-x-2 ease-out w-0 overflow-hidden [&>button]:border-muted-foreground/30',
-            open && 'w-max ml-4'
-          )}>
+            open && 'w-max ml-4',
+          )}
+        >
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="outline" size="icon">
@@ -107,6 +111,6 @@ export default function EditorFloatingMenu() {
           </Dialog>
         </div>
       </div>
-    </FloatingMenu>
+    </TiptapFloatingMenu>
   );
 }

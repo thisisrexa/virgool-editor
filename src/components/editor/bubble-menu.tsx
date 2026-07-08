@@ -1,9 +1,10 @@
-import { useCallback, useState } from 'react';
 import { useCurrentEditor } from '@tiptap/react';
-import { BubbleMenu } from '@tiptap/react/menus';
+import { BubbleMenu as TiptapBubbleMenu } from '@tiptap/react/menus';
 import { Bold, Italic, Link, Type } from 'lucide-react';
+import { useCallback, useState } from 'react';
 
-import { cn } from '@/lib/utils';
+import { togglePrimaryHeading } from '@/components/editor/commands/headings';
+import { setLink } from '@/components/editor/commands/links';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,25 +12,20 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
 
-export default function EditorBubbleMenu() {
+export default function BubbleMenu() {
   const { editor } = useCurrentEditor();
   const [linkValue, setLinkValue] = useState<string>('');
 
   const handleSetLink = useCallback(() => {
-    if (linkValue === '') {
-      editor?.chain().focus().extendMarkRange('link').unsetLink().run();
+    if (!editor) {
       return;
     }
 
-    editor
-      ?.chain()
-      .focus()
-      .extendMarkRange('link')
-      .setLink({ href: linkValue })
-      .run();
+    setLink(editor, linkValue);
   }, [editor, linkValue]);
 
   if (!editor) {
@@ -37,12 +33,13 @@ export default function EditorBubbleMenu() {
   }
 
   return (
-    <BubbleMenu editor={editor}>
+    <TiptapBubbleMenu editor={editor}>
       <div className="bg-foreground rounded-lg px-2 flex text-background [&>button]:hover:bg-transparent [&>button]:hover:text-background">
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => editor.chain().focus().toggleBold().run()}>
+          onClick={() => editor.chain().focus().toggleBold().run()}
+        >
           <Bold
             className={cn('size-4', editor.isActive('bold') && 'text-blue-500')}
           />
@@ -50,39 +47,25 @@ export default function EditorBubbleMenu() {
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => editor.chain().focus().toggleItalic().run()}>
+          onClick={() => editor.chain().focus().toggleItalic().run()}
+        >
           <Italic
             className={cn(
               'size-4',
-              editor.isActive('italic') && 'text-blue-500'
+              editor.isActive('italic') && 'text-blue-500',
             )}
           />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          onClick={() => {
-            const isH1Exists = editor
-              .getJSON()
-              .content?.some(
-                (node) => node.type === 'heading' && node.attrs?.level === 1
-              );
-
-            if (isH1Exists) {
-              if (editor.isActive('heading', { level: 1 })) {
-                editor.chain().focus().setParagraph().run();
-              } else {
-                editor.chain().focus().toggleHeading({ level: 2 }).run();
-              }
-            } else {
-              editor.chain().focus().toggleHeading({ level: 1 }).run();
-            }
-          }}>
+          onClick={() => togglePrimaryHeading(editor)}
+        >
           <Type
             className={cn(
               'size-4',
               editor.isActive('heading', { level: 1 }) && 'text-blue-500',
-              editor.isActive('heading', { level: 2 }) && 'text-blue-500'
+              editor.isActive('heading', { level: 2 }) && 'text-blue-500',
             )}
           />
         </Button>
@@ -91,11 +74,12 @@ export default function EditorBubbleMenu() {
           size="icon"
           onClick={() =>
             editor.chain().focus().toggleHeading({ level: 3 }).run()
-          }>
+          }
+        >
           <Type
             className={cn(
               'size-3.5',
-              editor.isActive('heading', { level: 3 }) && 'text-blue-500'
+              editor.isActive('heading', { level: 3 }) && 'text-blue-500',
             )}
           />
         </Button>
@@ -105,7 +89,7 @@ export default function EditorBubbleMenu() {
               <Link
                 className={cn(
                   'size-4',
-                  editor.isActive('link') && 'text-blue-500'
+                  editor.isActive('link') && 'text-blue-500',
                 )}
               />
             </Button>
@@ -117,7 +101,7 @@ export default function EditorBubbleMenu() {
                 type="url"
                 id="url"
                 placeholder="https://example.com"
-                defaultValue={editor?.getAttributes('link').href}
+                defaultValue={editor.getAttributes('link').href}
                 onChange={(e) => setLinkValue(e.target.value)}
               />
               <DialogClose asChild>
@@ -127,6 +111,6 @@ export default function EditorBubbleMenu() {
           </DialogContent>
         </Dialog>
       </div>
-    </BubbleMenu>
+    </TiptapBubbleMenu>
   );
 }

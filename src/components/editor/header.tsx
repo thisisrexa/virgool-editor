@@ -1,8 +1,22 @@
-import { useEffect, useState } from 'react';
 import { useCurrentEditor } from '@tiptap/react';
 import { Clipboard, File, Save, SaveOff } from 'lucide-react';
-import TurndownService from 'turndown';
+import { useState } from 'react';
 
+import {
+  copyAsHtml,
+  copyAsMarkdown,
+  copyAsText,
+} from '@/components/editor/export/copy-to-clipboard';
+import {
+  exportAsHtml,
+  exportAsMarkdown,
+  exportAsText,
+} from '@/components/editor/export/export-document';
+import { AUTO_SAVE_KEY } from '@/components/editor/persistence/storage-keys';
+import { useAutoSave } from '@/components/editor/persistence/use-auto-save';
+import { useContentRestore } from '@/components/editor/persistence/use-content-restore';
+import ThemeSwitch from '@/components/theme/theme-switch';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,113 +27,25 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import ThemeSwitch from '@/components/ThemeSwitch';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { download, getHeadingByHtml } from '@/lib/utils';
 
 export default function Header() {
   const { editor } = useCurrentEditor();
-  const [autoSave, setAutoSave] = useState<boolean>(
-    JSON.parse(localStorage.getItem('autoSave') || 'true')
+  const [autoSave, setAutoSave] = useState<boolean>(() =>
+    JSON.parse(localStorage.getItem(AUTO_SAVE_KEY) ?? 'true'),
   );
 
-  useEffect(() => {
-    const storedContent = localStorage.getItem('content');
-    if (storedContent && editor) {
-      editor.commands.setContent(JSON.parse(storedContent));
-    }
-  }, [editor]);
-
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-    if (autoSave) {
-      timeout = setTimeout(() => {
-        localStorage.setItem('content', JSON.stringify(editor?.getJSON()));
-      }, 500);
-    }
-
-    return () => clearTimeout(timeout);
-  }, [editor, autoSave]);
+  useContentRestore(editor ?? null);
+  useAutoSave(editor ?? null, autoSave);
 
   const handleAutoSave = () => {
     setAutoSave(!autoSave);
-    localStorage.setItem('autoSave', JSON.stringify(!autoSave));
-  };
-
-  const handleExportToText = () => {
-    if (!editor?.isEmpty) {
-      const filename = getHeadingByHtml(editor!.getHTML());
-      download(
-        new Blob([editor!.getText()], { type: 'text/plain' }),
-        `${filename}.txt`
-      );
-    }
-  };
-
-  const handleExportToMarkdown = () => {
-    if (!editor?.isEmpty) {
-      const turndownService = new TurndownService({
-        headingStyle: 'atx',
-      });
-      const filename = getHeadingByHtml(editor!.getHTML()!);
-      download(
-        new Blob([turndownService.turndown(editor!.getHTML()!)], {
-          type: 'text/markdown',
-        }),
-        `${filename}.md`
-      );
-    }
-  };
-
-  const handleExportToHtml = () => {
-    if (!editor?.isEmpty) {
-      const filename = getHeadingByHtml(editor!.getHTML());
-      download(
-        new Blob([editor!.getHTML()], { type: 'text/html' }),
-        `${filename}.html`
-      );
-    }
-  };
-
-  const handleClipboardText = async () => {
-    if (!editor?.isEmpty) {
-      try {
-        await navigator.clipboard.writeText(editor!.getText()!);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const handleClipboardMarkdown = async () => {
-    if (!editor?.isEmpty) {
-      const turndownService = new TurndownService({
-        headingStyle: 'atx',
-      });
-      try {
-        await navigator.clipboard.writeText(
-          turndownService.turndown(editor!.getHTML())
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const handleClipboardHtml = async () => {
-    if (!editor?.isEmpty) {
-      try {
-        await navigator.clipboard.writeText(editor!.getHTML());
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(!autoSave));
   };
 
   return (
@@ -162,15 +88,17 @@ export default function Header() {
             <DropdownMenuLabel>Clipboard</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={handleClipboardText}>
+              <DropdownMenuItem onClick={() => editor && copyAsText(editor)}>
                 Copy as Text
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleClipboardMarkdown}>
+              <DropdownMenuItem
+                onClick={() => editor && copyAsMarkdown(editor)}
+              >
                 Copy as Markdown
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleClipboardHtml}>
+              <DropdownMenuItem onClick={() => editor && copyAsHtml(editor)}>
                 Copy as HTML
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
@@ -196,15 +124,17 @@ export default function Header() {
             <DropdownMenuLabel>Export</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem onClick={handleExportToText}>
+              <DropdownMenuItem onClick={() => editor && exportAsText(editor)}>
                 Export to Text
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleExportToMarkdown}>
+              <DropdownMenuItem
+                onClick={() => editor && exportAsMarkdown(editor)}
+              >
                 Export to Markdown
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleExportToHtml}>
+              <DropdownMenuItem onClick={() => editor && exportAsHtml(editor)}>
                 Export to HTML
                 <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
               </DropdownMenuItem>

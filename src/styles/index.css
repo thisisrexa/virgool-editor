@@ -120,52 +120,6 @@
   @apply h-full;
 }
 
-.tiptap {
-  @apply px-4 py-2 outline-none font-serif;
-}
-
-.tiptap p {
-  @apply text-xl mt-6 leading-loose;
-}
-
-.tiptap h1,
-.tiptap h2 {
-  @apply text-3xl font-bold mt-8;
-}
-
-.tiptap h3 {
-  @apply text-2xl font-bold mt-6;
-}
-
-.tiptap h2:has(+ p) {
-  @apply -mb-4;
-}
-
-.tiptap h3:has(+ p) {
-  @apply -mb-5;
-}
-
-.tiptap a {
-  @apply text-blue-500 underline pointer-events-none;
-}
-
-.tiptap p.is-editor-empty:first-child::before {
-  opacity: var(--placeholder-opacity);
-  color: #adb5bd;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
-}
-
-.tiptap img {
-  @apply mt-6 w-full aspect-video;
-}
-
-.tiptap img.ProseMirror-selectednode {
-  @apply outline outline-[3px] outline-blue-500;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
