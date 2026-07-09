@@ -16,6 +16,7 @@
     "@tiptap/core": "^3.27.3",
     "@tiptap/extension-image": "^3.27.3",
     "@tiptap/extension-link": "^3.27.3",
+    "@tiptap/extension-youtube": "^3.27.3",
     "@tiptap/extensions": "^3.27.3",
     "@tiptap/pm": "^3.27.3",
     "@tiptap/react": "^3.27.3",
@@ -26,10 +27,13 @@
     "radix-ui": "^1.6.2",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "shiki": "^4.3.1",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.2",
     "tailwindcss-animate": "^1.0.7",
-    "turndown": "^7.2.4"
+    "tiptap-extension-code-block-shiki": "^1.2.0",
+    "turndown": "^7.2.4",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@fullstacksjs/eslint-config": "^14.7.0",
@@ -41,6 +45,7 @@
     "eslint": "^10.6.0",
     "globals": "^17.7.0",
     "path": "^0.12.7",
+    "playwright": "1.52.0",
     "prettier": "^3.9.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.63.0",

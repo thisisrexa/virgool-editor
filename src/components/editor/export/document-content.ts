@@ -3,7 +3,7 @@ import type { Editor } from '@tiptap/react';
 import { filenameFromHtml } from '@/components/editor/export/filename-from-html';
 import { turndownService } from '@/components/editor/export/turndown';
 
-export type DocumentFormat = 'text' | 'markdown' | 'html';
+export type DocumentFormat = 'html' | 'json' | 'markdown' | 'text';
 
 export function getDocumentContent(
   editor: Editor,
@@ -18,6 +18,9 @@ export function getDocumentContent(
 
     case 'html':
       return editor.getHTML();
+
+    case 'json':
+      return JSON.stringify(editor.getJSON(), null, 2);
   }
 }
 

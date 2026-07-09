@@ -6,7 +6,7 @@ import { CONTENT_KEY } from '@/components/editor/persistence/storage-keys';
 
 const DEBOUNCE_MS = 500;
 
-export function useAutoSave(editor: Editor | null, enabled: boolean) {
+export function useAutoSave(editor: Editor | null, enabled: boolean = true) {
   useEffect(() => {
     if (!editor || !enabled) {
       return;

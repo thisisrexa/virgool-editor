@@ -11,12 +11,14 @@ const MIME_TYPES: Record<DocumentFormat, string> = {
   text: 'text/plain',
   markdown: 'text/markdown',
   html: 'text/html',
+  json: 'application/json',
 };
 
 const EXTENSIONS: Record<DocumentFormat, string> = {
   text: 'txt',
   markdown: 'md',
   html: 'html',
+  json: 'json',
 };
 
 function exportDocument(editor: Editor, format: DocumentFormat) {
@@ -43,4 +45,8 @@ export function exportAsMarkdown(editor: Editor) {
 
 export function exportAsHtml(editor: Editor) {
   exportDocument(editor, 'html');
+}
+
+export function exportAsJson(editor: Editor) {
+  exportDocument(editor, 'json');
 }

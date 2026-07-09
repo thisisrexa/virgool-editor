@@ -40,3 +40,7 @@ export function copyAsMarkdown(editor: Editor) {
 export function copyAsHtml(editor: Editor) {
   return copyToClipboard(editor, 'html');
 }
+
+export function copyAsJson(editor: Editor) {
+  return copyToClipboard(editor, 'json');
+}

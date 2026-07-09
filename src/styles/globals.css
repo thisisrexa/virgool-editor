@@ -46,6 +46,7 @@
 
 :root {
   --placeholder-opacity: 1;
+  --editor-font-family: 'Literata', serif;
   --editor-link: oklch(0.55 0.2 255);
   --editor-selection: oklch(0.55 0.2 255);
   --background: oklch(0.985 0 0);
@@ -132,7 +133,8 @@
 
 @layer components {
   .tiptap {
-    @apply min-h-[50vh] px-4 py-6 outline-none font-serif caret-foreground;
+    @apply min-h-[50vh] px-4 py-6 outline-none caret-foreground;
+    font-family: var(--editor-font-family);
   }
 
   .tiptap > *:first-child {
@@ -179,9 +181,63 @@
     opacity: var(--placeholder-opacity);
     @apply text-muted-foreground/70;
     content: attr(data-placeholder);
-    float: left;
+    float: inline-start;
     height: 0;
     pointer-events: none;
+  }
+
+  .tiptap blockquote {
+    @apply mt-4 border-s-2 border-muted-foreground/25 ps-3 text-base leading-relaxed text-muted-foreground/90 not-italic;
+  }
+
+  .tiptap blockquote p {
+    @apply text-base leading-relaxed;
+  }
+
+  .tiptap :is(ul, ol) {
+    @apply mt-3 ps-5 text-lg leading-relaxed text-foreground/85;
+  }
+
+  .tiptap ul {
+    @apply list-disc marker:text-muted-foreground/60;
+  }
+
+  .tiptap ol {
+    @apply list-decimal marker:text-muted-foreground/60;
+  }
+
+  .tiptap li {
+    @apply ps-0.5;
+  }
+
+  .tiptap li + li {
+    @apply mt-1;
+  }
+
+  .tiptap li p {
+    @apply text-lg leading-relaxed;
+  }
+
+  .tiptap pre {
+    @apply mt-5 overflow-x-auto rounded-md p-3 text-[0.8125rem] leading-relaxed;
+  }
+
+  .tiptap pre code {
+    @apply bg-transparent p-0 font-mono text-[0.8125rem];
+  }
+
+  html.dark .tiptap .shiki,
+  html.dark .tiptap .shiki span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+
+  .tiptap div[data-youtube-video] {
+    @apply mt-8 aspect-video w-full rounded-lg overflow-hidden;
+  }
+
+  .tiptap div[data-youtube-video] iframe {
+    @apply h-full w-full;
   }
 
   .tiptap img {

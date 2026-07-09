@@ -56,7 +56,10 @@ export default function BubbleMenu() {
           onClick={() => editor.chain().focus().toggleBold().run()}
         >
           <Bold
-            className={cn('size-4', editor.isActive('bold') && 'text-editor-link')}
+            className={cn(
+              'size-4',
+              editor.isActive('bold') && 'text-editor-link',
+            )}
           />
         </Button>
         <Button

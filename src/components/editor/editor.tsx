@@ -9,6 +9,7 @@ export default function Editor() {
   return (
     <EditorProvider
       extensions={editorExtensions}
+      textDirection="auto"
       shouldRerenderOnTransaction
       slotBefore={<Header />}
     >

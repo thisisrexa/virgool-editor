@@ -1,42 +1,50 @@
 import { useCurrentEditor } from '@tiptap/react';
-import { Clipboard, File, Save, SaveOff } from 'lucide-react';
-import { useState } from 'react';
+import { Clipboard, File } from 'lucide-react';
+import type { ChangeEvent } from 'react';
+import { useRef } from 'react';
 
+import DocumentMenu from '@/components/editor/document-menu';
 import {
   copyAsHtml,
+  copyAsJson,
   copyAsMarkdown,
   copyAsText,
 } from '@/components/editor/export/copy-to-clipboard';
 import {
   exportAsHtml,
+  exportAsJson,
   exportAsMarkdown,
   exportAsText,
 } from '@/components/editor/export/export-document';
+import { importFromJson } from '@/components/editor/export/import-document';
+import FontPicker from '@/components/editor/fonts/font-picker';
 import HeaderActionMenu from '@/components/editor/header-action-menu';
-import { AUTO_SAVE_KEY } from '@/components/editor/persistence/storage-keys';
-import { useAutoSave } from '@/components/editor/persistence/use-auto-save';
-import { useContentRestore } from '@/components/editor/persistence/use-content-restore';
+import { useEditorStore } from '@/components/editor/persistence/editor-store';
+import { useEditorPersistence } from '@/components/editor/persistence/use-editor-persistence';
 import ThemeSwitch from '@/components/theme/theme-switch';
-import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 
 export default function Header() {
   const { editor } = useCurrentEditor();
-  const [autoSave, setAutoSave] = useState<boolean>(() =>
-    JSON.parse(localStorage.getItem(AUTO_SAVE_KEY) ?? 'true'),
-  );
+  const autoSave = useEditorStore((state) => state.autoSave);
+  const importInputRef = useRef<HTMLInputElement>(null);
 
-  useContentRestore(editor ?? null);
-  useAutoSave(editor ?? null, autoSave);
+  useEditorPersistence(editor ?? null);
 
-  const handleAutoSave = () => {
-    setAutoSave(!autoSave);
-    localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(!autoSave));
+  const handleImportJson = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    const input = event.target;
+
+    if (!file || !editor) {
+      return;
+    }
+
+    void importFromJson(editor, file, autoSave)
+      .catch((error: unknown) => {
+        console.error(error);
+      })
+      .finally(() => {
+        input.value = '';
+      });
   };
 
   return (
@@ -46,20 +54,13 @@ export default function Header() {
         alt="Virgool Editor Logo"
         className="aspect-square object-cover max-w-6"
       />
-      <div className="flex items-center">
+      <div className="flex items-center gap-1">
+        <FontPicker />
         <ThemeSwitch />
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button size="icon" variant="ghost" onClick={handleAutoSave}>
-                {autoSave ? <Save /> : <SaveOff />}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Toggle auto save</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <DocumentMenu
+          onImportJson={() => importInputRef.current?.click()}
+          onSaveJson={() => editor && exportAsJson(editor)}
+        />
         <HeaderActionMenu
           icon={<Clipboard />}
           tooltip="Clipboard"
@@ -76,6 +77,10 @@ export default function Header() {
             {
               label: 'Copy as HTML',
               onClick: () => editor && copyAsHtml(editor),
+            },
+            {
+              label: 'Copy as JSON',
+              onClick: () => editor && copyAsJson(editor),
             },
           ]}
         />
@@ -97,6 +102,13 @@ export default function Header() {
               onClick: () => editor && exportAsHtml(editor),
             },
           ]}
+        />
+        <input
+          ref={importInputRef}
+          type="file"
+          accept=".json,application/json"
+          className="hidden"
+          onChange={handleImportJson}
         />
       </div>
     </header>
