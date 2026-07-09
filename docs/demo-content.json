@@ -1,0 +1,292 @@
+{
+  "type": "doc",
+  "content": [
+    {
+      "type": "heading",
+      "attrs": { "level": 1 },
+      "content": [
+        { "type": "text", "text": "Write Without Friction" }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Great writing starts with a calm surface. Virgool Editor gives you a "
+        },
+        {
+          "type": "text",
+          "marks": [{ "type": "bold" }],
+          "text": "clean canvas"
+        },
+        {
+          "type": "text",
+          "text": ", "
+        },
+        {
+          "type": "text",
+          "marks": [{ "type": "italic" }],
+          "text": "thoughtful typography"
+        },
+        {
+          "type": "text",
+          "text": ", and tools that stay out of your way until you need them — like "
+        },
+        {
+          "type": "text",
+          "marks": [
+            {
+              "type": "link",
+              "attrs": {
+                "href": "https://tiptap.dev",
+                "target": "_blank",
+                "rel": "noopener noreferrer nofollow",
+                "class": null
+              }
+            }
+          ],
+          "text": "exporting to Markdown"
+        },
+        {
+          "type": "text",
+          "text": " when the draft is ready."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2 },
+      "content": [
+        { "type": "text", "text": "Why distraction-free writing matters" }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "When the interface disappears, ideas move faster. You focus on sentences, structure, and rhythm — not menus, modals, or formatting fights. That is the difference between typing and "
+        },
+        {
+          "type": "text",
+          "marks": [{ "type": "italic" }],
+          "text": "composing"
+        },
+        {
+          "type": "text",
+          "text": "."
+        }
+      ]
+    },
+    {
+      "type": "blockquote",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "“The first draft is just you telling yourself the story. The editor should never get in the way of that conversation.”"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2 },
+      "content": [
+        { "type": "text", "text": "Built for real writing workflows" }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "From blog posts to release notes, Virgool Editor covers the essentials without clutter:"
+        }
+      ]
+    },
+    {
+      "type": "bulletList",
+      "content": [
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "bold" }],
+                  "text": "Rich formatting"
+                },
+                {
+                  "type": "text",
+                  "text": " — headings, links, quotes, and lists"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "bold" }],
+                  "text": "Syntax-highlighted code"
+                },
+                {
+                  "type": "text",
+                  "text": " — powered by Shiki, theme-aware in light and dark mode"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "bold" }],
+                  "text": "Media embeds"
+                },
+                {
+                  "type": "text",
+                  "text": " — images with alt text and YouTube videos"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "bold" }],
+                  "text": "Export anywhere"
+                },
+                {
+                  "type": "text",
+                  "text": " — copy or save as Text, Markdown, HTML, or JSON"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 3 },
+      "content": [
+        { "type": "text", "text": "A minimal editor setup" }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Under the hood, the editor is a thin React layer over Tiptap — easy to extend, pleasant to use:"
+        }
+      ]
+    },
+    {
+      "type": "codeBlock",
+      "attrs": { "language": "typescript" },
+      "content": [
+        {
+          "type": "text",
+          "text": "import { EditorProvider } from '@tiptap/react';\nimport BubbleMenu from '@/components/editor/bubble-menu';\nimport FloatingMenu from '@/components/editor/floating-menu';\nimport { editorExtensions } from '@/components/editor/extensions';\n\nexport default function Editor() {\n  return (\n    <EditorProvider extensions={editorExtensions}>\n      <BubbleMenu />\n      <FloatingMenu />\n    </EditorProvider>\n  );\n}"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 3 },
+      "content": [
+        { "type": "text", "text": "From draft to publish" }
+      ]
+    },
+    {
+      "type": "orderedList",
+      "attrs": { "start": 1 },
+      "content": [
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "text": "Write freely with auto-save in the background" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "text": "Pick a font that matches your voice" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "text": "Export to Markdown or HTML and ship" }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "attrs": {
+        "src": "https://images.unsplash.com/photo-1455390582260-0446de086a3e?w=1200&h=675&fit=crop",
+        "alt": "A notebook and pen on a wooden desk, warm natural light",
+        "title": null
+      }
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "Whether you are drafting an essay, documenting a project, or shaping your next post, the goal is the same: "
+        },
+        {
+          "type": "text",
+          "marks": [{ "type": "bold" }],
+          "text": "stay in flow"
+        },
+        {
+          "type": "text",
+          "text": ". Open the editor, write one true sentence, and let the rest follow."
+        }
+      ]
+    }
+  ]
+}
