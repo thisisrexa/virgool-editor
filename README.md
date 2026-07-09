@@ -6,9 +6,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-646cff?logo=vite&logoColor=white)](https://vite.dev/)
 
-> A Medium-like WYSIWYG editor for distraction-free writing, built with React and Tiptap.
-
-**Virgool** (Persian: **ویرگول**, from French _virgule_) is the comma — the punctuation mark **،** that separates phrases and gives prose its rhythm. This editor is named for that pause: calm, focused writing with room to breathe.
+> Virgool (Persian: ویرگول, from French virgule) is the comma ، — a pause between thoughts, inspiring a distraction-free space where ideas flow naturally and writing finds its rhythm.
 
 Virgool Editor is a local-first writing tool with rich formatting, syntax-highlighted code blocks, and one-click export to Markdown, HTML, or JSON. Auto-save keeps your draft in the browser—no account required.
 
